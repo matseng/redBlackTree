@@ -1,0 +1,24 @@
+{
+  "name": "redBlackTree",
+  "version": "0.0.0",
+  "description": "",
+  "main": "redBlack.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "red-black",
+    "red",
+    "black",
+    "tree"
+  ],
+  "author": "Michael Tseng",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^1.9.2",
+    "mocha": "^1.21.5"
+  }
+}
