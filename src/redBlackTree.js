@@ -1,11 +1,17 @@
 //http://web.cse.ohio-state.edu/~gurari/course/cis680/cis680Ch11.html#QQ1-43-75
 
+// root is black
+// all paths from root to leaf hit the same number of black nodes
+// no path can contain 2 consecutive red nodes
+// if a node is red, then both its children are black
+// insert: color the node red
+
 var Tree = function(key, obj) {
   this.key = key || null;
-  this.val = obj || null;
+  this.val = obj || 'obj';
   this.left;
   this.right;
-  this.red = false;
+  this.color = 'red';
 };
 
 Tree.prototype.build = function(arr) {
@@ -19,6 +25,7 @@ Tree.prototype.insert = function(key, obj) {
   if( !this.key ) {
     this.key = key;
     this.val = obj;
+    this.color = 'black'
     return;
   }
   if (key < this.key) {
@@ -36,18 +43,31 @@ Tree.prototype.insert = function(key, obj) {
   }
 };
 
-Tree.prototype.traverse = function(result) {
-  var result = result || [];
-  if (!this.left && !this.right) {
-    result.push(this.key);
-  } else {
-    if( this.left ) {
-      this.left.traverse(result);
+Tree.prototype.check = function() {
+
+};
+
+Tree.prototype.inOrderTraverse = function(result) {
+  
+  var result = [];
+  var started = false;
+  function recur(tree) {
+    var added = false;
+    if ( !tree.left || started) {
+      result.push(tree.key);
+      started = true;
+      added = true;
     }
-    if( this.right ) {
-      this.right.traverse(result);
+    if( tree.left ) {
+      recur(tree.left)
     }
-    result.push(this.key);
+    if ( !added ) {
+      result.push(tree.key)
+    }
+    if( tree.right ) {
+      recur(tree.right);
+    }
   }
+  recur(this);
   return result.join(', ');
 };

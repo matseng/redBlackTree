@@ -52,6 +52,7 @@ fi
  
 # Curl some json to the github API oh damn we so fancy
 curl -u $USERNAME_ https://api.github.com/user/repos -d "{\"name\": \"$REPONAME\", \"description\": \"${DESCRIPTION}\", \"private\": $PRIVATE_TF, \"has_issues\": true, \"has_downloads\": true, \"has_wiki\": false}"
+# curl -u $USERNAME_ https://api.github.com/user/repos -d "{\"$USERNAME_\": \"$REPONAME\", \"description\": \"${DESCRIPTION}\", \"private\": $PRIVATE_TF, \"has_issues\": true, \"has_downloads\": true, \"has_wiki\": false}"
  
 # Set the freshly created repo to the origin and push
 # You'll need to have added your public key to your github account
