@@ -16,18 +16,20 @@
 # Gather constant vars
 CURRENTDIR=${PWD##*/}
 GITHUBUSER=$(git config github.user)
- 
+
 # Get user input
 echo "Enter name for new repo, or just <return> to make it $CURRENTDIR"
 read REPONAME
 echo "Enter username for new, or just <return> to make it $GITHUBUSER"
-read USERNAME
+read USERNAME_
+echo $USERNAME_
 echo "Enter description for your new repo, on one line, then <return>"
 read DESCRIPTION
 echo "Enter <return> to make the new repo public, 'x' for private"
 read PRIVATE_ANSWER
  
-if [ "$PRIVATE_ANSWER" == "x" ]; then
+# see http://www.zsh.org/mla/users/2011/msg00160.html for explanation of using [[]] with zsh
+if [[ "$PRIVATE_ANSWER" == "x" ]]; then
   PRIVACYWORD=private
   PRIVATE_TF=true
 else
@@ -36,10 +38,10 @@ else
 fi
  
 REPONAME=${REPONAME:-${CURRENTDIR}}
-USERNAME=${USERNAME:-${GITHUBUSER}}
- 
+USERNAME_=${USERNAME_:-${GITHUBUSER}}
+
 echo "Will create a new *$PRIVACYWORD* repo named $REPONAME"
-echo "on github.com in user account $USERNAME, with this description:"
+echo "on github.com in user account $USERNAME_, with this description:"
 echo $DESCRIPTION
 echo "Type 'y' to proceed, any other character to cancel."
 read OK
@@ -49,9 +51,9 @@ if [ "$OK" != "y" ]; then
 fi
  
 # Curl some json to the github API oh damn we so fancy
-curl -u $USERNAME https://api.github.com/user/repos -d "{\"name\": \"$REPONAME\", \"description\": \"${DESCRIPTION}\", \"private\": $PRIVATE_TF, \"has_issues\": true, \"has_downloads\": true, \"has_wiki\": false}"
+curl -u $USERNAME_ https://api.github.com/user/repos -d "{\"name\": \"$REPONAME\", \"description\": \"${DESCRIPTION}\", \"private\": $PRIVATE_TF, \"has_issues\": true, \"has_downloads\": true, \"has_wiki\": false}"
  
 # Set the freshly created repo to the origin and push
 # You'll need to have added your public key to your github account
-git remote add origin https://github.com/$USERNAME/$REPONAME.git
+git remote add origin https://github.com/$USERNAME_/$REPONAME.git
 git push -u origin master
