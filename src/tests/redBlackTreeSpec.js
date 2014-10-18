@@ -4,7 +4,7 @@ describe('Red-Black Tree', function() {
     
     var tree;
     
-    it('should get the proper key ordering example 1', function() {
+    xit('should get the proper key ordering example 1', function() {
       tree = new Tree();
       var arr = [2,1,3,4,5]
       tree.build(arr);
@@ -12,7 +12,7 @@ describe('Red-Black Tree', function() {
       expect(tree.inOrderTraverse()).to.equal('1, 2, 3, 4, 5');
     });
 
-    it('should get the proper key ordering example 2', function() {
+    xit('should get the proper key ordering example 2', function() {
       tree = new Tree('y');
       tree.left = new Tree('x');
       tree.left.left = new Tree('A');
@@ -22,7 +22,7 @@ describe('Red-Black Tree', function() {
       expect(tree.inOrderTraverse()).to.equal('A, x, B, y, C');
     });
 
-    it('should get the proper key ordering example 3', function() {
+    xit('should get the proper key ordering example 3', function() {
       tree = new Tree('f');
       tree.left = new Tree('b');
       tree.left.left = new Tree('a');
@@ -37,11 +37,14 @@ describe('Red-Black Tree', function() {
     });
 
     it('should correctly color a 2 node tree', function() {
-      tree = new Tree();
-      tree.insert(null, 1);
-      tree.insert(null, 2);
-      expect(tree.color).to.equal('black');
-      expect(tree.right.color).to.equal('red');
+      var root = new Tree();
+      root.insert(1);
+      root.insert(2);
+      expect(root.color).to.equal('black');
+      expect(root.right.color).to.equal('red');
+      root.insert(3);
+      expect(root.color).to.equal('black');
+      expect(root.left === 'red' && root.right === 'red').to.equal('true');
     });
   });
 

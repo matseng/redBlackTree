@@ -17,16 +17,17 @@ var Tree = function(key, obj) {
   this.val = obj || 'obj';
   this.left;
   this.right;
+  this.parent;
   this.color = 'red';
 };
 
 Tree.prototype.build = function(arr) {
   for(var i = 0; i < arr.length; i++) {
-    this.insert(null, arr[i]);
+    this.insert(arr[i]);
   }
 };
 
-Tree.prototype.insert = function(newTree, key, obj) {
+Tree.prototype.insert = function(key, obj, newTree) {
   obj = obj || 'obj';
   newTree = newTree || new Tree(key, obj);
   if( !this.key ) {
@@ -35,24 +36,45 @@ Tree.prototype.insert = function(newTree, key, obj) {
     this.color = 'black'
     return;
   }
-  if (key < this.key) {
+  if (newTree.key < this.key) {
     if( !this.left ) {
       this.left = newTree;
+      newTree.parent = this.left;
+      newTree.check();
     } else {
-      this.left.insert(newTree);
+      this.left.insert(null, null, newTree);
     }
   } else {
     if( !this.right ) {
       this.right = newTree;
+      newTree.parent = this.right;
+      newTree.check();
     } else {
-      this.right.insert(newTree);
+      this.right.insert(null, null, newTree);
     }
   }
   //TODO: check colors of ancestors
 };
 
 Tree.prototype.check = function() {
+  if(this.color === 'red' && this.parent.color === 'red' && this.parent.parent) {
+    if(this.getUncleColor() === 'black') {
+      console.log('rotate');
+    }
+  }
+};
 
+Tree.prototype.getUncleColor = function() {
+  var uncle = this.getUncle();
+  if ( !uncle ) return 'black';
+  return uncle.color;
+};
+
+Tree.prototype.getUncle = function() {
+  if(this.parent.right === this) {
+    return this.parent.left;
+  }
+  return this.parent.right;
 };
 
 Tree.prototype.inOrderTraverse = function(result) {
