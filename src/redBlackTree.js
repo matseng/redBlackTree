@@ -6,6 +6,12 @@
 // if a node is red, then both its children are black
 // insert: color the node red
 
+//discrepancy from parent and child having same color
+  //get color of grandparent
+  //get color of parent's sibling ('uncle')
+  //if uncle is red, then changes colors
+  //if uncle is black or null, then rotate
+
 var Tree = function(key, obj) {
   this.key = key || null;
   this.val = obj || 'obj';
@@ -16,12 +22,13 @@ var Tree = function(key, obj) {
 
 Tree.prototype.build = function(arr) {
   for(var i = 0; i < arr.length; i++) {
-    this.insert(arr[i]);
+    this.insert(null, arr[i]);
   }
 };
 
-Tree.prototype.insert = function(key, obj) {
+Tree.prototype.insert = function(newTree, key, obj) {
   obj = obj || 'obj';
+  newTree = newTree || new Tree(key, obj);
   if( !this.key ) {
     this.key = key;
     this.val = obj;
@@ -30,17 +37,18 @@ Tree.prototype.insert = function(key, obj) {
   }
   if (key < this.key) {
     if( !this.left ) {
-      this.left = new Tree(key, obj);;
+      this.left = newTree;
     } else {
-      this.left.insert(key, obj);
+      this.left.insert(newTree);
     }
   } else {
     if( !this.right ) {
-      this.right = new Tree(key, obj);
+      this.right = newTree;
     } else {
-      this.right.insert(key, obj);
+      this.right.insert(newTree);
     }
   }
+  //TODO: check colors of ancestors
 };
 
 Tree.prototype.check = function() {
@@ -48,22 +56,13 @@ Tree.prototype.check = function() {
 };
 
 Tree.prototype.inOrderTraverse = function(result) {
-  
   var result = [];
-  var started = false;
   function recur(tree) {
     var added = false;
-    if ( !tree.left || started) {
-      result.push(tree.key);
-      started = true;
-      added = true;
-    }
     if( tree.left ) {
       recur(tree.left)
     }
-    if ( !added ) {
-      result.push(tree.key)
-    }
+    result.push(tree.key)
     if( tree.right ) {
       recur(tree.right);
     }

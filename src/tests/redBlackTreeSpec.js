@@ -35,6 +35,14 @@ describe('Red-Black Tree', function() {
       console.log(tree);
       expect(tree.inOrderTraverse()).to.equal('a, b, c, d, e, f, g, h, i');
     });
+
+    it('should correctly color a 2 node tree', function() {
+      tree = new Tree();
+      tree.insert(null, 1);
+      tree.insert(null, 2);
+      expect(tree.color).to.equal('black');
+      expect(tree.right.color).to.equal('red');
+    });
   });
 
 });
