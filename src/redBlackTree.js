@@ -39,7 +39,7 @@ Tree.prototype.insert = function(key, obj, newTree) {
   if (newTree.key < this.key) {
     if( !this.left ) {
       this.left = newTree;
-      newTree.parent = this.left;
+      newTree.parent = this;
       newTree.check();
     } else {
       this.left.insert(null, null, newTree);
@@ -47,7 +47,7 @@ Tree.prototype.insert = function(key, obj, newTree) {
   } else {
     if( !this.right ) {
       this.right = newTree;
-      newTree.parent = this.right;
+      newTree.parent = this;
       newTree.check();
     } else {
       this.right.insert(null, null, newTree);
@@ -59,7 +59,7 @@ Tree.prototype.insert = function(key, obj, newTree) {
 Tree.prototype.check = function() {
   if(this.color === 'red' && this.parent.color === 'red' && this.parent.parent) {
     if(this.getUncleColor() === 'black') {
-      console.log('rotate');
+      console.log('TODO: rotate here');
     }
   }
 };
