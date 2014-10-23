@@ -37,14 +37,14 @@ describe('Red-Black Tree', function() {
     });
 
     it('should correctly color a 2 node tree', function() {
-      var root = new Tree();
-      root.insert(1);
-      root.insert(2);
-      expect(root.color).to.equal('black');
-      expect(root.right.color).to.equal('red');
-      root.insert(3);
-      expect(root.color).to.equal('black');
-      expect(root.left === 'red' && root.right === 'red').to.equal('true');
+      var rbt = new RedBlackTree();
+      rbt.insert(1);
+      rbt.insert(2);
+      expect(rbt.root.color).to.equal('black');
+      expect(rbt.root.right.color).to.equal('red');
+      rbt.insert(3);
+      expect(rbt.root.color).to.equal('black');
+      expect(rbt.root.left.color === 'red' && rbt.root.right.color === 'red').to.equal(true);
     });
   });
 

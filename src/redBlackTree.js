@@ -11,6 +11,14 @@
   //get color of parent's sibling ('uncle')
   //if uncle is red, then changes colors
   //if uncle is black or null, then rotate
+var RedBlackTree = function() {
+  this.root;
+};
+
+RedBlackTree.prototype.insert = function(key, obj, newTree) {
+  this.root = this.root || new Tree();
+  this.root.insert(key, obj, newTree, this);
+};
 
 var Tree = function(key, obj) {
   this.key = key || null;
@@ -27,7 +35,7 @@ Tree.prototype.build = function(arr) {
   }
 };
 
-Tree.prototype.insert = function(key, obj, newTree) {
+Tree.prototype.insert = function(key, obj, newTree, rbt) {
   obj = obj || 'obj';
   newTree = newTree || new Tree(key, obj);
   if( !this.key ) {
@@ -40,33 +48,38 @@ Tree.prototype.insert = function(key, obj, newTree) {
     if( !this.left ) {
       this.left = newTree;
       newTree.parent = this;
-      newTree.check();
+      newTree.check(rbt);
     } else {
-      this.left.insert(null, null, newTree);
+      this.left.insert(null, null, newTree, rbt);
     }
   } else {
     if( !this.right ) {
       this.right = newTree;
       newTree.parent = this;
-      newTree.check();
+      newTree.check(rbt);
     } else {
-      this.right.insert(null, null, newTree);
+      this.right.insert(null, null, newTree, rbt);
     }
   }
   //TODO: check colors of ancestors
 };
 
-Tree.prototype.check = function() {
+Tree.prototype.check = function(rbt) {
   if(this.color === 'red' && this.parent.color === 'red' && this.parent.parent) {
     if(this.getUncleColor() === 'black') {
       console.log('TODO: rotate here');
+      rbt.root = this.parent;
+      rbt.root.color = 'black';
+      rbt.root.left = this.parent.parent;
+      rbt.root.left.color = 'red';
+      rbt.root.right = this;
     }
   }
 };
 
 Tree.prototype.getUncleColor = function() {
   var uncle = this.getUncle();
-  if ( !uncle ) return 'black';
+  if ( !uncle ) return 'black';  //return 'black if uncle dont's exist
   return uncle.color;
 };
 
