@@ -15,13 +15,24 @@ var RedBlackTree = function() {
   this.root;
 };
 
-RedBlackTree.prototype.insert = function(key, obj, newTree) {
+RedBlackTree.prototype.insert = function(key, obj) {
   this.root = this.root || new Tree();
-  this.root.insert(key, obj, newTree, this);
+  return this.root.insert(key, obj, null, this);
+};
+
+RedBlackTree.prototype.build = function(arr) {
+  if(typeof arr[0] === 'number') {
+    for(var i = 0; i < arr.length; i++) {
+      this.insert(arr[i]);
+    }
+  } else {
+    throw "Objects not yet supported"
+  }
 };
 
 var Tree = function(key, obj) {
-  this.key = key || null;
+  // this.key = key || null;  // causes a bug if key equals 0
+  this.key = (key != null) ? key : null;  // same as this.key = (key !== null && key !== undefined) ? key : null;
   this.val = obj || 'obj';
   this.left = null;
   this.right = null;
@@ -38,27 +49,29 @@ Tree.prototype.build = function(arr) {
 Tree.prototype.insert = function(key, obj, newTree, rbt) {
   obj = obj || 'obj';
   newTree = newTree || new Tree(key, obj);
-  if( !this.key ) {
+  if( this.key === null) {
     this.key = key;
     this.val = obj;
     this.color = 'black'
-    return;
+    return this;
   }
   if (newTree.key < this.key) {
     if( !this.left ) {
       this.left = newTree;
       newTree.parent = this;
       newTree.check(rbt);
+      return newTree;
     } else {
-      this.left.insert(null, null, newTree, rbt);
+      return this.left.insert(null, null, newTree, rbt);
     }
   } else {
     if( !this.right ) {
       this.right = newTree;
       newTree.parent = this;
       newTree.check(rbt);
+      return newTree;
     } else {
-      this.right.insert(null, null, newTree, rbt);
+      return this.right.insert(null, null, newTree, rbt);
     }
   }
   //TODO: check colors of ancestors
@@ -78,7 +91,7 @@ Tree.prototype.check = function(rbt) {
       parent.color = 'black';
       parent.left.color = 'red';
       parent.right.color = 'red';
-      if ( rbt.root === this.parent.left) {
+      if ( rbt.root === this.parent.left || rbt.root === this.parent.right ) {
         rbt.root = this.parent;
       }
     } else {
