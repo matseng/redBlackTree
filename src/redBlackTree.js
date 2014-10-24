@@ -80,7 +80,7 @@ Tree.prototype.insert = function(key, obj, newTree, rbt) {
 Tree.prototype.check = function(rbt) {
   if(this.color === 'red' && this.parent.color === 'red' && this.parent.parent) {
     if(this.getUncleColor() === 'black') {
-      console.log('TODO: rotate here');
+      console.log('Rotate and update colors here');
       var parent = this.parent;
       var grandparent = parent.parent;
       var greatGrandparent = this.parent.parent.parent;
@@ -95,11 +95,14 @@ Tree.prototype.check = function(rbt) {
         rbt.root = this.parent;
       }
     } else {
+      // console.log('Update colors only here');
       this.parent.color = 'black';
-      this.parent.check(rbt);
+      this.parent.parent.color = 'red';
       this.getUncle().color = 'black';
+      this.parent.check(rbt);
     }
   } else if (this.color === 'black' && rbt.root === this.parent) {
+    console.log('Keep the root black');
     this.parent.color = 'black';
     if ( this.parent.left ) this.parent.left.color = 'black';
     if ( this.parent.right) this.parent.right.color = 'black';
@@ -118,6 +121,7 @@ Tree.prototype.disconnectChildFromParent = function() {
   } else {
     throw "Mismatch between child and parent";
   }
+  this.parent = null;
 };
 
 /*
