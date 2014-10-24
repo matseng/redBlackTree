@@ -1,6 +1,6 @@
 describe('Red-Black Tree', function() {
 
-  describe('in-order traversal', function() {
+  describe('in-order traversal of Tree class (not yet Red-Black tree)', function() {
     
     var tree;
     
@@ -35,9 +35,14 @@ describe('Red-Black Tree', function() {
       console.log(tree);
       expect(tree.inOrderTraverse()).to.equal('a, b, c, d, e, f, g, h, i');
     });
+  });
 
-    it('should correctly color a 2 node tree', function() {
-      var rbt = new RedBlackTree();
+  describe('RedBlackTree class', function() {
+
+    var rbt;
+    
+    it('should create a 3 node tree', function() {
+      rbt = new RedBlackTree();
       rbt.insert(1);
       rbt.insert(2);
       expect(rbt.root.color).to.equal('black');
@@ -45,7 +50,20 @@ describe('Red-Black Tree', function() {
       rbt.insert(3);
       expect(rbt.root.color).to.equal('black');
       expect(rbt.root.left.color === 'red' && rbt.root.right.color === 'red').to.equal(true);
+      expect(rbt.root.key).to.equal(2);
+      expect(rbt.root.right.key).to.equal(3);
+      expect(rbt.root.left.key).to.equal(1);
+      expect(rbt.root.left.parent).to.equal(rbt.root);
     });
+
+    it('should create a 4 node tree', function() {
+      rbt.insert(4);
+      expect(rbt.root.color).to.equal('black');
+      expect(rbt.root.left.color).to.equal('black');
+      expect(rbt.root.right.color).to.equal('black');
+      expect(rbt.root.right.right.color).to.equal('red');
+    });
+
   });
 
 });
