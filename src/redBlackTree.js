@@ -68,14 +68,22 @@ Tree.prototype.check = function(rbt) {
   if(this.color === 'red' && this.parent.color === 'red' && this.parent.parent) {
     if(this.getUncleColor() === 'black') {
       console.log('TODO: rotate here');
-      var greatGrandparent = this.parent.parent.parent || null;
-      this.parent.left = this.parent.parent;
+      var parent = this.parent;
+      var grandparent = parent.parent;
+      var greatGrandparent = this.parent.parent.parent;
+
+      // this.parent.left = this.parent.parent;
+      grandparent.connectChildParent(parent);
       this.parent.parent = greatGrandparent;
-      if (greatGrandparent) greatGrandparent.right = this.parent;
+      // if (greatGrandparent) greatGrandparent.right = this.parent;
+      if ( greatGrandparent) parent.connectChildParent(greatGrandparent);
       this.parent.left.right = null;
-      this.parent.left.parent = this.parent;
-      this.parent.color = 'black';
-      this.parent.left.color = 'red';
+      // this.parent.left.parent = this.parent;
+      // this.parent.color = 'black';
+      parent.color = 'black';
+      // this.parent.left.color = 'red';
+      parent.left.color = 'red';
+      parent.right.color = 'red';
       if ( rbt.root === this.parent.left) {
         rbt.root = this.parent;
       }
@@ -88,6 +96,22 @@ Tree.prototype.check = function(rbt) {
     if ( this.parent.left ) this.parent.left.color = 'black';
     if ( this.parent.right) this.parent.right.color = 'black';
   }
+};
+
+/*
+*
+* Connects a child to a new parent
+*
+*/
+Tree.prototype.connectChildParent = function(parent) {
+  if (parent.left) {
+    parent.right = this;
+  } else if (parent.right) {
+    parent.left = this;
+  } else {
+    throw "No available children";
+  }
+  this.parent = parent;
 };
 
 Tree.prototype.getUncleColor = function() {
