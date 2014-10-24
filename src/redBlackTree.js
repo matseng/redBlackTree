@@ -71,17 +71,11 @@ Tree.prototype.check = function(rbt) {
       var parent = this.parent;
       var grandparent = parent.parent;
       var greatGrandparent = this.parent.parent.parent;
-
-      // this.parent.left = this.parent.parent;
-      grandparent.connectChildParent(parent);
-      this.parent.parent = greatGrandparent;
-      // if (greatGrandparent) greatGrandparent.right = this.parent;
-      if ( greatGrandparent) parent.connectChildParent(greatGrandparent);
-      this.parent.left.right = null;
-      // this.parent.left.parent = this.parent;
-      // this.parent.color = 'black';
+      parent.disconnectChildFromParent(grandparent);
+      grandparent.disconnectChildFromParent(greatGrandparent);
+      grandparent.connectChildToParent(parent);
+      if ( greatGrandparent) parent.connectChildToParent(greatGrandparent);
       parent.color = 'black';
-      // this.parent.left.color = 'red';
       parent.left.color = 'red';
       parent.right.color = 'red';
       if ( rbt.root === this.parent.left) {
@@ -98,12 +92,26 @@ Tree.prototype.check = function(rbt) {
   }
 };
 
+
+Tree.prototype.disconnectChildFromParent = function() {
+  var parent = this.parent;
+  if ( !parent ) {
+    return;
+  } else if( this === parent.right) {
+    parent.right = null;
+  } else if ( this === parent.left ) {
+    parent.left = null;
+  } else {
+    throw "Mismatch between child and parent";
+  }
+};
+
 /*
 *
 * Connects a child to a new parent
 *
 */
-Tree.prototype.connectChildParent = function(parent) {
+Tree.prototype.connectChildToParent = function(parent) {
   if (parent.left) {
     parent.right = this;
   } else if (parent.right) {
