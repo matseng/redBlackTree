@@ -71,6 +71,7 @@ Tree.prototype.check = function(rbt) {
       var greatGrandparent = this.parent.parent.parent || null;
       this.parent.left = this.parent.parent;
       this.parent.parent = greatGrandparent;
+      if (greatGrandparent) greatGrandparent.right = this.parent;
       this.parent.left.right = null;
       this.parent.left.parent = this.parent;
       this.parent.color = 'black';

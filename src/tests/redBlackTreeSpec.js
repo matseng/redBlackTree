@@ -64,6 +64,14 @@ describe('Red-Black Tree', function() {
       expect(rbt.root.right.right.color).to.equal('red');
     });
 
+    it('should create a 5 node tree', function() {
+      rbt.insert(5);
+      expect(rbt.root.right.key).to.equal(4);
+      expect(rbt.root.right.color).to.equal('black');
+      expect(rbt.root.right.left.key).to.equal(3);
+      expect(rbt.root.right.left.color).to.equal('red');
+    });
+
   });
 
 });
