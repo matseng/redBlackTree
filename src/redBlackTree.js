@@ -97,6 +97,7 @@ Tree.prototype.check = function(rbt) {
     } else {
       this.parent.color = 'black';
       this.parent.check(rbt);
+      this.getUncle().color = 'black';
     }
   } else if (this.color === 'black' && rbt.root === this.parent) {
     this.parent.color = 'black';

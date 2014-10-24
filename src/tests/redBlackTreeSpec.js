@@ -74,7 +74,7 @@ describe('Red-Black Tree', function() {
 
   });
 
-  describe('should be able to insert negative nodes', function() {
+  describe('should be able to build more complicated trees', function() {
     it('should create a 3 node tree', function() {
       var rbt;
       rbt = new RedBlackTree();
@@ -95,7 +95,7 @@ describe('Red-Black Tree', function() {
     it('should build a node tree', function() {
       var rbt = new RedBlackTree();
       var newTree;
-      // rbt.build([1,6,8,11,13,15,17,22,25,27]);
+      var uncle;
       rbt.build([8,13,17]);
       expect(rbt.root.key).to.equal(13);
       expect(rbt.root.color).to.equal('black');
@@ -111,7 +111,47 @@ describe('Red-Black Tree', function() {
       expect(rbt.root.left.right.color).to.equal('red');
       expect(newTree.color).to.equal('red');
       console.log(rbt);
+      newTree = rbt.insert(15);
+      expect(newTree.color).to.equal('red');
+      expect(newTree.key).to.equal(15);
+      newTree = rbt.insert(25);
+      expect(newTree.color).to.equal('red');
+      newTree = rbt.insert(6);
+      expect(newTree.color).to.equal('red');
+      expect(newTree.parent.color).to.equal('black');
+      newTree = rbt.insert(22);
+      expect(newTree.color).to.equal('red');
+      expect(newTree.parent.color).to.equal('black');
+      uncle = newTree.getUncle();
+      expect(newTree.getUncleColor()).to.equal('black');
+      expect(newTree.getUncle().key).to.equal(15);
+      newTree = rbt.insert(27);
+      expect(newTree.color).to.equal('red');
     });
+
+  describe('...', function() {
+    it('should ', function() {
+      var rbt = new RedBlackTree();
+      // rbt.build([1,6,8,11,13,15,17,22,25,27]);
+      rbt.build([1,6,8,11]);
+      expect(rbt.root.left.color).to.equal('black');
+      expect(rbt.root.right.color).to.equal('black');
+      expect(rbt.root.right.right.color).to.equal('red');
+      console.log(rbt.root);
+      rbt.insert(13,15,17);
+      //TODO
+    });
+
+    it('should ', function() {
+      var rbt = new RedBlackTree();
+      rbt.build([1,6,8,11,13,15,17,22,25,27]);
+      expect(rbt.root.key).to.equal(13);
+      console.log(rbt.root);
+      
+      //TODO
+    });
+
+  });
 
   });
 
