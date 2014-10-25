@@ -160,8 +160,16 @@ describe('Red-Black Tree', function() {
       expect(newTree.parent.parent.key).to.equal(11);
       expect(rbt.root.parent).to.equal(null);
       console.log(newTree);
-      // newTree = rbt.insert(13,15,17);
-      //TODO
+      newTree = rbt.insert(22);
+      expect(rbt.root.key).to.equal(11);
+      expect(rbt.root.color).to.equal('black');
+      expect(rbt.root.parent).to.equal(null);
+
+      newTree = rbt.insert(25);
+      expect(newTree.parent.key).to.equal(22);
+      expect(newTree.parent.color).to.equal('black');
+      console.log(rbt.root);
+      //TODO: insert 27
     });
 
     xit('should ', function() {

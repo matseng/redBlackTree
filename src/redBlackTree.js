@@ -78,14 +78,19 @@ Tree.prototype.insert = function(key, obj, newTree, rbt) {
 };
 
 Tree.prototype.check = function(rbt) {
-  if(this.color === 'red' && this.parent.color === 'red' && this.parent.parent) {
+  if(this.color === 'red' && this.parent && this.parent.color === 'red' && this.parent.parent) {
     if(this.getUncleColor() === 'black') {
       console.log('Rotate and update colors here');
+      var sibling = this.getSibling();
       var parent = this.parent;
       var grandparent = parent.parent;
       var greatGrandparent = this.parent.parent.parent;
+      if ( sibling ) {
+        sibling.disconnectChildFromParent();
+      }
       parent.disconnectChildFromParent(grandparent);
       grandparent.disconnectChildFromParent(greatGrandparent);
+      if ( sibling ) sibling.connectChildToParent(grandparent);
       grandparent.connectChildToParent(parent);
       if ( greatGrandparent) parent.connectChildToParent(greatGrandparent);
       parent.color = 'black';
@@ -99,16 +104,21 @@ Tree.prototype.check = function(rbt) {
       this.parent.color = 'black';
       this.parent.parent.color = 'red';
       this.getUncle().color = 'black';
-      this.parent.check(rbt);
+      this.parent.parent.check(rbt);
     }
-  } else if (this.color === 'black' && rbt.root === this.parent) {
+  } else if (this.color === 'red' && rbt.root === this) {
     console.log('Keep the root black');
-    this.parent.color = 'black';
-    if ( this.parent.left ) this.parent.left.color = 'black';
-    if ( this.parent.right) this.parent.right.color = 'black';
+    this.color = 'black';
+    if ( this.left ) this.left.color = 'black';
+    if ( this.right) this.right.color = 'black';
   }
 };
 
+Tree.prototype.getSibling = function() {
+  if(this === this.parent.left)
+    return this.parent.right;
+  return this.parent.left;
+};
 
 Tree.prototype.disconnectChildFromParent = function() {
   var parent = this.parent;
