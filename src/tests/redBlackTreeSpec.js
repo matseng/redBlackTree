@@ -9,7 +9,7 @@ describe('Red-Black Tree', function() {
       var arr = [2,1,3,4,5]
       tree.build(arr);
       console.log(tree);
-      expect(tree.inOrderTraverse()).to.equal('1, 2, 3, 4, 5');
+      expect(tree.inOrderTraversal()).to.equal('1, 2, 3, 4, 5');
     });
 
     xit('should get the proper key ordering example 2', function() {
@@ -19,7 +19,7 @@ describe('Red-Black Tree', function() {
       tree.left.right = new Tree('B');
       tree.right = new Tree('C');
       console.log(tree);
-      expect(tree.inOrderTraverse()).to.equal('A, x, B, y, C');
+      expect(tree.inOrderTraversal()).to.equal('A, x, B, y, C');
     });
 
     xit('should get the proper key ordering example 3', function() {
@@ -33,7 +33,7 @@ describe('Red-Black Tree', function() {
       tree.right.right = new Tree('i');
       tree.right.right.left = new Tree('h');
       console.log(tree);
-      expect(tree.inOrderTraverse()).to.equal('a, b, c, d, e, f, g, h, i');
+      expect(tree.inOrderTraversal()).to.equal('a, b, c, d, e, f, g, h, i');
     });
   });
 
@@ -134,23 +134,53 @@ describe('Red-Black Tree', function() {
   describe('...', function() {
     it('should ', function() {
       var rbt = new RedBlackTree();
+      var newTree;
       // rbt.build([1,6,8,11,13,15,17,22,25,27]);
       rbt.build([1,6,8,11]);
+      expect(rbt.root.key).to.equal(6);
+      expect(rbt.root.color).to.equal('black');
+      expect(rbt.root.parent).to.equal(null);
       expect(rbt.root.left.color).to.equal('black');
       expect(rbt.root.right.color).to.equal('black');
       expect(rbt.root.right.right.color).to.equal('red');
       console.log(rbt.root);
-      rbt.insert(13,15,17);
-      //TODO... keep adding until an error is detected
+      newTree = rbt.insert(13);
+      expect(newTree.color).to.equal('red');
+      expect(newTree.parent.key).to.equal(11);
+      expect(newTree.parent.color).to.equal('black');
+      expect(newTree.parent.left.key).to.equal(8);
+      expect(newTree.parent.left.color).to.equal('red');
+      newTree = rbt.insert(15);
+      console.log(newTree);
+      expect(newTree.getUncle().key).to.equal(8);
+      expect(newTree.getUncle().color).to.equal('black');
+      expect(newTree.parent.parent.key).to.equal(11);
+      expect(newTree.parent.parent.color).to.equal('red');
+      newTree = rbt.insert(17);
+      expect(newTree.parent.key).to.equal(15);
+      expect(newTree.parent.color).to.equal('black');
+      expect(newTree.parent.parent.key).to.equal(11);
+      expect(rbt.root.parent).to.equal(null);
+      console.log(newTree);
+      newTree = rbt.insert(22);
+      expect(rbt.root.key).to.equal(11);
+      expect(rbt.root.color).to.equal('black');
+      expect(rbt.root.parent).to.equal(null);
+
+      newTree = rbt.insert(25);
+      expect(newTree.parent.key).to.equal(22);
+      expect(newTree.parent.color).to.equal('black');
+      console.log(rbt.root);
     });
 
     xit('should ', function() {
       var rbt = new RedBlackTree();
-      rbt.build([1,6,8,11,13,15,17,22,25,27]);
-      console.log(rbt.root);
-      expect(rbt.root.key).to.equal(13);
-
-      //TODO
+      // rbt.build([27,6,8,11,13,15,17,22,25,1]);
+      rbt.build([27,6,8]);
+      console.log(rbt);
+      console.log(rbt.inOrderTraversal());
+      // expect(rbt.inOrderTraversal()).to.deep.equal([1,6,8,11,13,15,17,22,25,27]);
+      expect(rbt.inOrderTraversal()).to.deep.equal([6,27,8]);
     });
 
   });

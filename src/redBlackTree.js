@@ -30,6 +30,10 @@ RedBlackTree.prototype.build = function(arr) {
   }
 };
 
+RedBlackTree.prototype.inOrderTraversal = function() {
+  return this.root.inOrderTraversal();
+};
+
 var Tree = function(key, obj) {
   // this.key = key || null;  // causes a bug if key equals 0
   this.key = (key != null) ? key : null;  // same as this.key = (key !== null && key !== undefined) ? key : null;
@@ -78,6 +82,7 @@ Tree.prototype.insert = function(key, obj, newTree, rbt) {
 };
 
 Tree.prototype.check = function(rbt) {
+<<<<<<< HEAD
   if(this.color === 'red' && this.parent.color === 'red' && this.parent.parent) {
     var parent = this.parent;
     var grandparent = parent.parent;
@@ -87,6 +92,7 @@ Tree.prototype.check = function(rbt) {
       console.log('TODO: rotate here');
       parent.disconnectChildFromParent(grandparent);
       grandparent.disconnectChildFromParent(greatGrandparent);
+      if ( sibling ) sibling.connectChildToParent(grandparent);
       grandparent.connectChildToParent(parent);
       if ( greatGrandparent) parent.connectChildToParent(greatGrandparent);
       parent.color = 'black';
@@ -106,6 +112,11 @@ Tree.prototype.check = function(rbt) {
   }
 };
 
+Tree.prototype.getSibling = function() {
+  if(this === this.parent.left)
+    return this.parent.right;
+  return this.parent.left;
+};
 
 Tree.prototype.disconnectChildFromParent = function() {
   var parent = this.parent;
@@ -118,6 +129,7 @@ Tree.prototype.disconnectChildFromParent = function() {
   } else {
     throw "Mismatch between child and parent";
   }
+  this.parent = null;
 };
 
 /*
@@ -151,7 +163,7 @@ Tree.prototype.getUncle = function() {
   return this.parent.parent.right;
 };
 
-Tree.prototype.inOrderTraverse = function(result) {
+Tree.prototype.inOrderTraversal = function(result) {
   var result = [];
   function recur(tree) {
     var added = false;
@@ -164,5 +176,6 @@ Tree.prototype.inOrderTraverse = function(result) {
     }
   }
   recur(this);
-  return result.join(', ');
+  // return result.join(', ');
+  return result;
 };
