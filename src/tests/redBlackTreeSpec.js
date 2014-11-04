@@ -131,6 +131,20 @@ describe('Red-Black Tree', function() {
   });
 
   describe('...', function() {
+    
+    it('should ', function() {
+      var rbt = new RedBlackTree();
+      // rbt.build([27,6,8,11,13,15,17,22,25,1]);
+      rbt.build([27,25,22,17,15,13,11,8]);
+      console.log(rbt);
+      console.log(rbt.inOrderTraversal());
+      expect(rbt.inOrderTraversal()).to.deep.equal([8,11,13,15,17,22,25,27]);  //missing 17
+      // expect(rbt.inOrderTraversal()).to.deep.equal([6,8,27]);
+      // expect(rbt.root.color).to.equal('black');
+      // expect(rbt.root.left.color).to.equal('red');
+      // expect(rbt.root.right.color).to.equal('red');
+    });
+
     it('should ', function() {
       var rbt = new RedBlackTree();
       var newTree;
@@ -181,7 +195,6 @@ describe('Red-Black Tree', function() {
       expect(rbt.root.color).to.equal('black');
       expect(rbt.root.left.color).to.equal('red');
       expect(rbt.root.right.color).to.equal('red');
-
     });
 
     it('should ', function() {
