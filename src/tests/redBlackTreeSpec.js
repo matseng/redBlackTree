@@ -131,7 +131,7 @@ describe('Red-Black Tree', function() {
   });
 
   describe('...', function() {
-    xit('should ', function() {
+    it('should ', function() {
       var rbt = new RedBlackTree();
       var newTree;
       // rbt.build([1,6,8,11,13,15,17,22,25,27]);
@@ -142,8 +142,8 @@ describe('Red-Black Tree', function() {
       expect(rbt.root.left.color).to.equal('black');
       expect(rbt.root.right.color).to.equal('black');
       expect(rbt.root.right.right.color).to.equal('red');
-      console.log(rbt.root);
       newTree = rbt.insert(13);
+      console.log(rbt.root);
       expect(newTree.color).to.equal('red');
       expect(newTree.parent.key).to.equal(11);
       expect(newTree.parent.color).to.equal('black');
@@ -165,12 +165,9 @@ describe('Red-Black Tree', function() {
       expect(rbt.root.key).to.equal(11);
       expect(rbt.root.color).to.equal('black');
       expect(rbt.root.parent).to.equal(null);
-
       newTree = rbt.insert(25);
       expect(newTree.parent.key).to.equal(22);
       expect(newTree.parent.color).to.equal('black');
-      console.log(rbt.root);
-      //TODO: insert 27
     });
 
     it('should ', function() {
