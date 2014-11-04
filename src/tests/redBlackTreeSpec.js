@@ -181,22 +181,44 @@ describe('Red-Black Tree', function() {
       console.log(rbt.inOrderTraversal());
       // expect(rbt.inOrderTraversal()).to.deep.equal([1,6,8,11,13,15,17,22,25,27]);
       expect(rbt.inOrderTraversal()).to.deep.equal([6,8,27]);
-      // console.log(rbt.root);
-      
-      //TODO
+      expect(rbt.root.color).to.equal('black');
+      expect(rbt.root.left.color).to.equal('red');
+      expect(rbt.root.right.color).to.equal('red');
+
     });
 
     it('should ', function() {
       var rbt = new RedBlackTree();
-      // rbt.build([27,6,8,11,13,15,17,22,25,1]);
-      rbt.build([27,8, 6]);
+      rbt.build([27,8,6]);
       console.log(rbt);
       console.log(rbt.inOrderTraversal());
-      // expect(rbt.inOrderTraversal()).to.deep.equal([1,6,8,11,13,15,17,22,25,27]);
       expect(rbt.inOrderTraversal()).to.deep.equal([6,8,27]);
-      // console.log(rbt.root);
-      
-      //TODO
+      expect(rbt.root.color).to.equal('black');
+      expect(rbt.root.left.color).to.equal('red');
+      expect(rbt.root.right.color).to.equal('red');
+    });
+
+    it('should ', function() {
+      var rbt = new RedBlackTree();
+      rbt.build([6,27,8]);
+      console.log(rbt);
+      console.log(rbt.inOrderTraversal());
+      expect(rbt.inOrderTraversal()).to.deep.equal([6,8,27]);
+      expect(rbt.root.color).to.equal('black');
+      expect(rbt.root.left.color).to.equal('red');
+      expect(rbt.root.right.color).to.equal('red');
+    });
+
+    it('should ', function() {
+      var rbt = new RedBlackTree();
+      rbt.build([10,12,8,6]);
+      console.log(rbt);
+      console.log(rbt.inOrderTraversal());
+      expect(rbt.inOrderTraversal()).to.deep.equal([6,8,10,12]);
+      expect(rbt.root.color).to.equal('black');
+      expect(rbt.root.left.color).to.equal('black');
+      expect(rbt.root.right.color).to.equal('black');
+      expect(rbt.root.left.left.color).to.equal('red');
     });
 
   });

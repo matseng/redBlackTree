@@ -35,7 +35,7 @@ RedBlackTree.prototype.inOrderTraversal = function() {
 };
 
 var Tree = function(key, obj) {
-  // this.key = key || null;  // causes a bug if key equals 0
+  // this.key = key || null;  // remember this line causes a bug if key equals 0
   this.key = (key != null) ? key : null;  // same as this.key = (key !== null && key !== undefined) ? key : null;
   this.val = obj || 'obj';
   this.left = null;
@@ -78,68 +78,42 @@ Tree.prototype.insert = function(key, obj, newTree, rbt) {
       return this.right.insert(null, null, newTree, rbt);
     }
   }
-  //TODO: check colors of ancestors
 };
 
 Tree.prototype.check = function(rbt) {
   if(this.color === 'red' && this.parent && this.parent.color === 'red' && this.parent.parent) {
     if(this.getUncleColor() === 'black') {
       this._rotate(rbt);
-    } else {
-      // console.log('Update colors only here');
+    } else {  // uncle is red
       this.parent.color = 'black';
       this.parent.parent.color = 'red';
       this.getUncle().color = 'black';
       this.parent.parent.check(rbt);
     }
-  } else if (this.color === 'red' && rbt.root === this) {
+  }
+  if ( this.color === 'red' && this.parent === null ) {
     console.log('Keep the root black');
     this.color = 'black';
-    if ( this.left ) this.left.color = 'black';
-    if ( this.right) this.right.color = 'black';
+  }
+  if ( this.parent ) {
+    this.parent.check(rbt);
   }
 };
 
 Tree.prototype._rotate = function(rbt) {
   var childPosition = this.getPosition();
   var parentPosition = this.parent.getPosition();
-  
-  // var sibling = this.getSibling();
   var parent = this.parent;
   var grandparent = parent.parent;
-  // var greatGrandparent = this.parent.parent.parent;
-
   if (childPosition === 'right' && parentPosition === 'right') {
     grandparent._rotateLeft(rbt);
   } else if (childPosition === 'left' && parentPosition === 'left') {
-    grandparent._rotateRight();
+    grandparent._rotateRight(rbt);
   } else if (childPosition === 'right' && parentPosition === 'left') {
-    parent._rotateLeft();
+    parent._rotateLeft(rbt);
   } else if (childPosition === 'left' && parentPosition === 'right') {
-    parent._rotateRight();
+    parent._rotateRight(rbt);
   }
-  
-    // console.log('Rotate and update colors here');
-    // var sibling = this.getSibling();
-    // var parent = this.parent;
-    // var grandparent = parent.parent;
-    // var greatGrandparent = this.parent.parent.parent;
-    // if ( sibling ) {
-    //   sibling.disconnectChildFromParent();
-    // }
-    // parent.disconnectChildFromParent(grandparent);
-    // grandparent.disconnectChildFromParent(greatGrandparent);
-    
-    // if ( sibling ) sibling.connectChildToParent(grandparent);
-    // grandparent.connectChildToParent(parent);
-    // if ( greatGrandparent) parent.connectChildToParent(greatGrandparent);
-    
-    parent.color = 'black';
-    parent.left.color = 'red';
-    parent.right.color = 'red';
-    if ( rbt.root === this.parent.left || rbt.root === this.parent.right ) {
-      rbt.root = this.parent;
-    }
 };
 
 Tree.prototype._rotateLeft = function(rbt) {
@@ -149,18 +123,19 @@ Tree.prototype._rotateLeft = function(rbt) {
   this.parent = child;
   this.right = null;
   if ( child.parent === null ) rbt.root = child;
-  this.check();
+  this.color = 'red';
+  this.check(rbt);
 };
 
-Tree.prototype._rotateRight = function() {
-  if ( this.parent ) {
-
-  } else if ( !this.parent ) {
-    var child = this.left;
-    child.right = this;
-    child.parent = null;
-    this.left = null;
-  }
+Tree.prototype._rotateRight = function(rbt) {
+  var child = this.left;
+  this.connectChildToGrandparent(child);
+  child.right = this;
+  this.parent = child;
+  this.left = null;
+  if ( child.parent === null ) rbt.root = child;
+  this.color = 'red';
+  this.check(rbt);
 };
 
 Tree.prototype.connectChildToGrandparent = function(child) {
