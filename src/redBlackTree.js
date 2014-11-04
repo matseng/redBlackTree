@@ -135,6 +135,7 @@ Tree.prototype._rotateRight = function(rbt) {
   this.parent = child;
   this.left = null;
   if ( child.parent === null ) rbt.root = child;
+  if (this.color === 'black') this.parent.color = 'black';
   this.color = 'red';
   this.check(rbt);
 };

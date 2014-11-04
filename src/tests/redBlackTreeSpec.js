@@ -131,18 +131,25 @@ describe('Red-Black Tree', function() {
   });
 
   describe('...', function() {
+    xit('should ', function() {
+      var rbt = new RedBlackTree();
+      rbt.build([27,6,8,11,13,15,17,22,25,1]);  //TODO: change to reverse order
+    });
     
     it('should ', function() {
       var rbt = new RedBlackTree();
-      // rbt.build([27,6,8,11,13,15,17,22,25,1]);
-      rbt.build([27,25,22,17,15,13,11,8]);
+      rbt.build([27,25,22,17]);
       console.log(rbt);
-      console.log(rbt.inOrderTraversal());
-      expect(rbt.inOrderTraversal()).to.deep.equal([8,11,13,15,17,22,25,27]);  //missing 17
-      // expect(rbt.inOrderTraversal()).to.deep.equal([6,8,27]);
-      // expect(rbt.root.color).to.equal('black');
-      // expect(rbt.root.left.color).to.equal('red');
-      // expect(rbt.root.right.color).to.equal('red');
+      expect(rbt.root.key).to.equal(25);
+      expect(rbt.root.color).to.equal('black');
+      expect(rbt.inOrderTraversal()).to.deep.equal([17,22,25,27]);  //missing 17
+      newTree = rbt.insert(13);
+      expect(rbt.inOrderTraversal()).to.deep.equal([13,17,22,25,27]);  //missing 17
+      expect(rbt.root.key).to.equal(25);
+      expect(newTree.getUncle().key).to.equal(27);
+      expect(newTree.getUncle().color).to.equal('black');
+      expect(newTree.parent.key).to.equal(17);
+      expect(newTree.parent.color).to.equal('black');
     });
 
     it('should ', function() {
@@ -223,7 +230,8 @@ describe('Red-Black Tree', function() {
       var rbt = new RedBlackTree();
       rbt.build([10,12,8,6]);
       console.log(rbt);
-      console.log(rbt.inOrderTraversal());
+      // console.log(rbt.inOrderTraversal());
+      expect(rbt.root.key).to.equal(10);
       expect(rbt.inOrderTraversal()).to.deep.equal([6,8,10,12]);
       expect(rbt.root.color).to.equal('black');
       expect(rbt.root.left.color).to.equal('black');
