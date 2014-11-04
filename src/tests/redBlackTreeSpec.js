@@ -1,6 +1,6 @@
 describe('Red-Black Tree', function() {
 
-  describe('in-order traversal of Tree class (not yet Red-Black tree)', function() {
+  xdescribe('in-order traversal of Tree class (not yet Red-Black tree)', function() {
     
     var tree;
     
@@ -37,7 +37,7 @@ describe('Red-Black Tree', function() {
     });
   });
 
-  describe('RedBlackTree class', function() {
+  xdescribe('RedBlackTree class', function() {
 
     var rbt;
     
@@ -74,7 +74,7 @@ describe('Red-Black Tree', function() {
 
   });
 
-  describe('should be able to build more complicated trees', function() {
+  xdescribe('should be able to build more complicated trees', function() {
     it('should create a 3 node tree', function() {
       var rbt;
       rbt = new RedBlackTree();
@@ -128,9 +128,10 @@ describe('Red-Black Tree', function() {
       newTree = rbt.insert(27);
       expect(newTree.color).to.equal('red');
     });
+  });
 
   describe('...', function() {
-    it('should ', function() {
+    xit('should ', function() {
       var rbt = new RedBlackTree();
       var newTree;
       // rbt.build([1,6,8,11,13,15,17,22,25,27]);
@@ -172,6 +173,19 @@ describe('Red-Black Tree', function() {
       //TODO: insert 27
     });
 
+    xit('should ', function() {
+      var rbt = new RedBlackTree();
+      // rbt.build([27,6,8,11,13,15,17,22,25,1]);
+      rbt.build([6,8,27]);
+      console.log(rbt);
+      console.log(rbt.inOrderTraversal());
+      // expect(rbt.inOrderTraversal()).to.deep.equal([1,6,8,11,13,15,17,22,25,27]);
+      expect(rbt.inOrderTraversal()).to.deep.equal([6,8,27]);
+      // console.log(rbt.root);
+      
+      //TODO
+    });
+
     it('should ', function() {
       var rbt = new RedBlackTree();
       // rbt.build([27,6,8,11,13,15,17,22,25,1]);
@@ -179,13 +193,11 @@ describe('Red-Black Tree', function() {
       console.log(rbt);
       console.log(rbt.inOrderTraversal());
       // expect(rbt.inOrderTraversal()).to.deep.equal([1,6,8,11,13,15,17,22,25,27]);
-      expect(rbt.inOrderTraversal()).to.deep.equal([6,27,8]);
+      expect(rbt.inOrderTraversal()).to.deep.equal([6,8,27]);
       // console.log(rbt.root);
       
       //TODO
     });
-
-  });
 
   });
 
