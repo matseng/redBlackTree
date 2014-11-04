@@ -152,7 +152,16 @@ Tree.prototype._rotateLeft = function(rbt) {
   this.check();
 };
 
-Tree.prototype._rotateRight = function() {};
+Tree.prototype._rotateRight = function() {
+  if ( this.parent ) {
+
+  } else if ( !this.parent ) {
+    var child = this.left;
+    child.right = this;
+    child.parent = null;
+    this.left = null;
+  }
+};
 
 Tree.prototype.connectChildToGrandparent = function(child) {
   if (this.parent && this.getPosition() === 'left') {

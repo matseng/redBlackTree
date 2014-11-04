@@ -173,7 +173,7 @@ describe('Red-Black Tree', function() {
       //TODO: insert 27
     });
 
-    xit('should ', function() {
+    it('should ', function() {
       var rbt = new RedBlackTree();
       // rbt.build([27,6,8,11,13,15,17,22,25,1]);
       rbt.build([6,8,27]);
@@ -189,7 +189,7 @@ describe('Red-Black Tree', function() {
     it('should ', function() {
       var rbt = new RedBlackTree();
       // rbt.build([27,6,8,11,13,15,17,22,25,1]);
-      rbt.build([27,6,8]);
+      rbt.build([27,8, 6]);
       console.log(rbt);
       console.log(rbt.inOrderTraversal());
       // expect(rbt.inOrderTraversal()).to.deep.equal([1,6,8,11,13,15,17,22,25,27]);
