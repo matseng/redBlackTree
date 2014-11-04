@@ -30,6 +30,10 @@ RedBlackTree.prototype.build = function(arr) {
   }
 };
 
+RedBlackTree.prototype.inOrderTraversal = function() {
+  return this.root.inOrderTraversal();
+};
+
 var Tree = function(key, obj) {
   // this.key = key || null;  // causes a bug if key equals 0
   this.key = (key != null) ? key : null;  // same as this.key = (key !== null && key !== undefined) ? key : null;
@@ -163,7 +167,7 @@ Tree.prototype.getUncle = function() {
   return this.parent.parent.right;
 };
 
-Tree.prototype.inOrderTraverse = function(result) {
+Tree.prototype.inOrderTraversal = function(result) {
   var result = [];
   function recur(tree) {
     var added = false;
@@ -176,5 +180,6 @@ Tree.prototype.inOrderTraverse = function(result) {
     }
   }
   recur(this);
-  return result.join(', ');
+  // return result.join(', ');
+  return result;
 };
