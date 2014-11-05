@@ -35,7 +35,7 @@ RedBlackTree.prototype.inOrderTraversal = function() {
 };
 
 var Tree = function(key, obj) {
-  // this.key = key || null;  // causes a bug if key equals 0
+  // this.key = key || null;  // remember this line causes a bug if key equals 0
   this.key = (key != null) ? key : null;  // same as this.key = (key !== null && key !== undefined) ? key : null;
   this.val = obj || 'obj';
   this.left = null;
@@ -78,37 +78,85 @@ Tree.prototype.insert = function(key, obj, newTree, rbt) {
       return this.right.insert(null, null, newTree, rbt);
     }
   }
-  //TODO: check colors of ancestors
 };
 
 Tree.prototype.check = function(rbt) {
-<<<<<<< HEAD
-  if(this.color === 'red' && this.parent.color === 'red' && this.parent.parent) {
-    var parent = this.parent;
-    var grandparent = parent.parent;
-    var greatGrandparent = this.parent.parent.parent;
-    var uncleColor = this.getUncleColor();
-    if(uncleColor === 'black') {
-      console.log('TODO: rotate here');
-      parent.disconnectChildFromParent(grandparent);
-      grandparent.disconnectChildFromParent(greatGrandparent);
-      if ( sibling ) sibling.connectChildToParent(grandparent);
-      grandparent.connectChildToParent(parent);
-      if ( greatGrandparent) parent.connectChildToParent(greatGrandparent);
-      parent.color = 'black';
-      parent.left.color = 'red';
-      parent.right.color = 'red';
-      if ( rbt.root === this.parent.left || rbt.root === this.parent.right ) {
-        rbt.root = this.parent;
-      }
-    } else if (uncleColor === 'red') { 
-      parent.color = 'black';
+  if(this.color === 'red' && this.parent && this.parent.color === 'red' && this.parent.parent) {
+    if(this.getUncleColor() === 'black') {
+      this._rotate(rbt);
+    } else {  // uncle is red
+      this.parent.color = 'black';
+      this.parent.parent.color = 'red';
       this.getUncle().color = 'black';
       this.parent.check(rbt);
     }
-  } 
-  else if (this.color === 'black' && rbt.root === this.parent) {
-    this.parent.color = 'black';
+  }
+  if ( this.color === 'red' && this.parent === null ) {
+    console.log('Keep the root black');
+    this.color = 'black';
+  }
+  if ( this.parent ) {
+    this.parent.check(rbt);
+  }
+};
+
+Tree.prototype._rotate = function(rbt) {
+  var childPosition = this.getPosition();
+  var parentPosition = this.parent.getPosition();
+  var parent = this.parent;
+  var grandparent = parent.parent;
+  if (childPosition === 'right' && parentPosition === 'right') {
+    grandparent._rotateLeft(rbt);
+  } else if (childPosition === 'left' && parentPosition === 'left') {
+    grandparent._rotateRight(rbt);
+  } else if (childPosition === 'right' && parentPosition === 'left') {
+    parent._rotateLeft(rbt);
+  } else if (childPosition === 'left' && parentPosition === 'right') {
+    parent._rotateRight(rbt);
+  }
+};
+
+Tree.prototype._rotateLeft = function(rbt) {
+  var child = this.right;
+  this.connectChildToGrandparent(child);
+  child.left = this;
+  this.parent = child;
+  this.right = null;
+  if ( child.parent === null ) rbt.root = child;
+  if (this.color === 'black') this.parent.color = 'black';
+  this.color = 'red';
+  this.check(rbt);
+};
+
+Tree.prototype._rotateRight = function(rbt) {
+  var child = this.left;
+  this.connectChildToGrandparent(child);
+  child.right = this;
+  this.parent = child;
+  this.left = null;
+  if ( child.parent === null ) rbt.root = child;
+  if (this.color === 'black') this.parent.color = 'black';
+  this.color = 'red';
+  this.check(rbt);
+};
+
+Tree.prototype.connectChildToGrandparent = function(child) {
+  if (this.parent && this.getPosition() === 'left') {
+    this.parent.left = child;
+    child.parent = this.parent;
+  } else if (this.parent && this.getPosition() === 'right') {
+    this.parent.right = child;
+    child.parent = this.parent;
+  } else {
+    child.parent = null;
+  }
+};
+
+Tree.prototype.getPosition = function() {
+  if (this === this.parent.left) {
+    return 'left';
+  } else if (this === this.parent.right) {
+    return 'right';
   }
 };
 
